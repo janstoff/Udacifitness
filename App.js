@@ -7,22 +7,21 @@ import reducer from './reducers'
 import History from './components/History'
 import store from './Store'
 import { purple, white } from './utils/colors'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
+import EntryDetail from './components/EntryDetail'
 
-
-function CustomStatusBar ({ backgroundColor, ...props }) {
-  return (
-    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
-      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </View>
-  )
+function CustomStatusBar({ backgroundColor, ...props }) {
+	return (
+		<View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+			<StatusBar translucent backgroundColor={backgroundColor} {...props} />
+		</View>
+	)
 }
 
-
 const Tabs = TabNavigator(
-  //structure via 1st argument to TabNavigator()
+	//structure via 1st argument to TabNavigator()
 	{
 		History: {
 			screen: History,
@@ -43,11 +42,11 @@ const Tabs = TabNavigator(
 			}
 		}
 	},
-  //style via 2nd argument to TabNavigator()
+	//style via 2nd argument to TabNavigator()
 	{
-    navigationOptions: {
-      header: null
-    },
+		navigationOptions: {
+			header: null
+		},
 		tabBarOptions: {
 			activeTintColor: Platform.OS === 'ios' ? purple : white,
 			style: {
@@ -65,13 +64,28 @@ const Tabs = TabNavigator(
 	}
 )
 
+const MainNavigator = StackNavigator({
+	Home: {
+		screen: Tabs
+	},
+	EntryDetail: {
+		screen: EntryDetail,
+		navigationOptions: {
+			headerTintColor: white,
+			headerStyle: {
+				backgroundColor: purple
+			}
+		}
+	}
+})
+
 export default class App extends React.Component {
 	render() {
 		return (
 			<Provider store={store}>
 				<View style={{ flex: 1 }}>
-          <CustomStatusBar backgroundColor={purple} barStyle='light-content' />
-					<Tabs />
+					<CustomStatusBar backgroundColor={purple} barStyle="light-content" />
+					<MainNavigator />
 				</View>
 			</Provider>
 		)
