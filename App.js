@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { View, Platform, StatusBar } from 'react-native'
 import AddEntry from './components/AddEntry'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -9,6 +9,17 @@ import store from './Store'
 import { purple, white } from './utils/colors'
 import { TabNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { Constants } from 'expo'
+
+
+function CustomStatusBar ({ backgroundColor, ...props }) {
+  return (
+    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
+}
+
 
 const Tabs = TabNavigator(
   //structure via 1st argument to TabNavigator()
@@ -36,7 +47,7 @@ const Tabs = TabNavigator(
 	{
     navigationOptions: {
       header: null
-    }, 
+    },
 		tabBarOptions: {
 			activeTintColor: Platform.OS === 'ios' ? purple : white,
 			style: {
@@ -59,6 +70,7 @@ export default class App extends React.Component {
 		return (
 			<Provider store={store}>
 				<View style={{ flex: 1 }}>
+          <CustomStatusBar backgroundColor={purple} barStyle='light-content' />
 					<Tabs />
 				</View>
 			</Provider>
