@@ -31,7 +31,7 @@ class EntryDetail extends Component {
 
   shouldComponentUpdate(nextProps) {
     // only if metrics are not null (i.e. there is content for the day) and there is no value in the today state
-    // otherwise metrics ends up undefined in the render method and breaks the UI
+    // otherwise metrics ends up undefined in the render method and breaks the  UI
     return nextProps.metrics !== null && !nextProps.metrics.today
 
   }
