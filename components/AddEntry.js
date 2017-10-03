@@ -9,7 +9,9 @@ import {
 import {
 	getMetricMetaInfo,
 	timeToString,
-	getDailyReminderValue
+	getDailyReminderValue,
+	clearLocalNotification,
+	setLocalNotification
 } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
@@ -80,11 +82,11 @@ class AddEntry extends Component {
 
 		this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }))
 
-    this.toHome()
+		this.toHome()
 
 		submitEntry({ key, entry })
 
-		// Clear local notification
+		clearLocalNotification().then(setLocalNotification)
 	}
 	reset = () => {
 		const key = timeToString()
@@ -100,11 +102,13 @@ class AddEntry extends Component {
 		removeEntry(key)
 	}
 
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({
-      key: 'AddEntry' // specify here which page you want to go back from
-    }))
-  }
+	toHome = () => {
+		this.props.navigation.dispatch(
+			NavigationActions.back({
+				key: 'AddEntry' // specify here which page you want to go back from
+			})
+		)
+	}
 
 	render() {
 		const metaInfo = getMetricMetaInfo()
